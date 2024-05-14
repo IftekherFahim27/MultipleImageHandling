@@ -1,0 +1,51 @@
+﻿@model List<Item>
+@{
+}
+
+<h2 class="text-center mb-5">List of Items</h2>
+
+<div class="row mb-5">
+    <div class="col">
+        <a class="btn btn-primary" asp-controller="Items" asp-action="Create">New Item</a>
+    </div>
+    <div class="col">
+        <!-- You can add any additional controls here if needed -->
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Unit</th>
+            <th>Quantity</th>
+            <th>Images</th>
+            <th>Created At</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Name</td>
+                <td>@item.Unit</td>
+                <td>@item.Quantity</td>
+                <td>
+                    @* Split the ImageFileNames and display each image *@
+                    @foreach (var imageFileName in item.ImageFileNames.Split(','))
+                    {
+                        <img src="/Items/@imageFileName" width="100" style="margin-right:10px;" />
+                    }
+                </td>
+                <td>@item.CreatedAt.ToString("dd/MM/yyyy")</td>
+                <td style="white-space:nowrap">
+                    <a class="btn btn-primary btn-sm" asp-controller="Items" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                    <a class="btn btn-danger btn-sm" asp-controller="Items" asp-action="Delete" asp-route-id="@item.Id" onclick="return confirm('Are you sure?')">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
